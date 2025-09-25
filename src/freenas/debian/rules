@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-#export DH_VERBOSE = 1
+export DH_VERBOSE = 1
 
 %:
 	dh $@
@@ -22,6 +22,9 @@ override_dh_auto_install:
 		mkdir -p debian/truenas-files/conf/base/etc; \
 		mkdir -p debian/truenas-files/usr/share/misc; \
 	"
+
+execute_after_dh_auto_install:
+	@echo "ls home/truenas_admin = $(shell ls -al debian/truenas-files/home/truenas_admin)"
 
 override_dh_fixperms:
 
