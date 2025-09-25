@@ -11,7 +11,6 @@ override_dh_auto_install:
 	sh -c "\
 		mkdir -p debian/truenas-files/etc; \
 		cp -a etc debian/truenas-files/; \
-		cp -a lib debian/truenas-files/; \
 		cp -a usr debian/truenas-files/; \
 		mkdir debian/truenas-files/home; \
 		cp -a root debian/truenas-files/home/truenas_admin; \
@@ -24,7 +23,7 @@ override_dh_auto_install:
 	"
 
 execute_after_dh_auto_install:
-	@echo "ls home/truenas_admin = $(shell ls -al debian/truenas-files/home/truenas_admin)"
+	@echo "ls -ln home/ = $(shell ls -ln debian/truenas-files/home/)"
 
 override_dh_fixperms:
 
