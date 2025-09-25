@@ -23,7 +23,9 @@ override_dh_auto_install:
 	"
 
 execute_after_dh_auto_install:
-	@echo "ls -ln home/ = $(shell ls -ln debian/truenas-files/home/)"
+	@echo "----------------------"
+	@echo "MCG DEBUG: ls -ln home/ = $(shell ls -ln debian/truenas-files/home/)"
+	@echo "----------------------"
 
 override_dh_fixperms:
 
