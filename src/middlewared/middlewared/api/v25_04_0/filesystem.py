@@ -70,7 +70,7 @@ class FilesystemChownArgs(FilesystemPermChownBase):
 
 
 class FilesystemChownResult(BaseModel):
-    result: None
+    result: Literal[None]
 
 
 @single_argument_args('filesystem_setperm')
@@ -91,7 +91,7 @@ class FilesystemSetpermArgs(FilesystemPermChownBase):
 
 
 class FilesystemSetpermResult(BaseModel):
-    result: None
+    result: Literal[None]
 
 
 FILESYSTEM_STATX_ATTRS = Literal[
@@ -352,7 +352,7 @@ class FilesystemGetArgs(BaseModel):
 
 
 class FilesystemGetResult(BaseModel):
-    result: None
+    result: Literal[None]
 
 
 class FilesystemPutOptions(BaseModel):

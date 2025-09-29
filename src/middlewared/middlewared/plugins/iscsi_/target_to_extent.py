@@ -248,10 +248,10 @@ class iSCSITargetToExtentService(CRUDService):
         # a single target (at a single LUN) at a time.  Failure to
         # do so would result in a mechanism to avoid any SCSI based
         # locking, and therefore could result in data corruption.
-        if old_extent != extent and await self.query([
-            ('extent', '=', extent)
-        ], {'force_sql_filters': True}):
-            verrors.add(
-                f'{schema_name}.extent',
-                'Extent is already in use.'
-            )
+        # if old_extent != extent and await self.query([
+        #     ('extent', '=', extent)
+        # ], {'force_sql_filters': True}):
+        #     verrors.add(
+        #         f'{schema_name}.extent',
+        #         'Extent is already in use.'
+        #     )

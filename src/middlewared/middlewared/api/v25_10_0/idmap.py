@@ -1,4 +1,5 @@
 from middlewared.api.base import BaseModel
+from typing import Literal
 
 
 __all__ = [
@@ -11,4 +12,4 @@ class IdmapDomainClearIdmapCacheArgs(BaseModel):
 
 
 class IdmapDomainClearIdmapCacheResult(BaseModel):
-    result: None
+    result: Literal[None]

@@ -203,6 +203,30 @@ class EtcService(Service):
             'entries': [
                 {'type': 'py', 'path': 'nvmet_kernel'},
             ]
+        }, 'spdk': {
+            'ctx': [
+                {'method': 'failover.licensed'},
+                {'method': 'failover.node'},
+                {'method': 'failover.status'},
+                {'method': 'spdk.global.ana_active'},
+                {'method': 'spdk.global.ana_enabled'},
+                {'method': 'spdk.global.config'},
+                {'method': 'spdk.global.rdma_enabled'},
+                {'method': 'spdk.host.query'},
+                {'method': 'spdk.namespace.query'},
+                {'method': 'spdk.port.query'},
+                {'method': 'spdk.port.usage'},
+                {'method': 'spdk.subsys.firmware'},
+                {'method': 'spdk.subsys.model'},
+                {'method': 'spdk.subsys.query'},
+                {'method': 'spdk.host_subsys.query'},
+                {'method': 'spdk.port_subsys.query'},
+                {'method': 'spdk.port.transport_address_choices', 'args': ['TCP', True], 'ctx_prefix': 'tcp'},
+                {'method': 'spdk.port.transport_address_choices', 'args': ['RDMA', True], 'ctx_prefix': 'rdma'},
+            ],
+            'entries': [
+                {'type': 'py', 'path': 'spdk'},
+            ]
         },
         'pam': {
             'ctx': [

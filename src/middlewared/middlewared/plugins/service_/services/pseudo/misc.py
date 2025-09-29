@@ -229,3 +229,32 @@ class NVMETargetService(PseudoServiceBase):
 
     async def failure_logs(self):
         return None
+
+class SPDKTargetService(PseudoServiceBase):
+    name = "spdk"
+    systemd_unit = NotImplemented
+
+    etc = ["spdk"]
+    reloadable = True
+
+    async def start(self):
+        await self.middleware.call('spdk.global.start')
+
+    async def stop(self):
+        await self.middleware.call('spdk.global.stop')
+
+    async def reload(self):
+        # etc.generate is called before we get here
+        pass
+
+    async def become_active(self):
+        # If necessary we can optimize to *just* poke the
+        # 1. port ANA group state
+        # 2. namespace enabled
+        await self.middleware.call('etc.generate', self.name)
+
+    async def get_state(self):
+        return ServiceState(
+            (await self.middleware.call('spdk.global.running')),
+            [],
+        )

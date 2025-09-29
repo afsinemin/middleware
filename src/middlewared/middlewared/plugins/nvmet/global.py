@@ -112,8 +112,8 @@ class NVMetGlobalService(SystemServiceService, NVMetStandbyMixin):
         """
         Returns whether RDMA is enabled or not.
         """
-        if not await self.middleware.call('system.is_enterprise'):
-            return False
+        # if not await self.middleware.call('system.is_enterprise'):
+        #     return False
 
         return (await self.middleware.call('nvmet.global.config'))['rdma']
 

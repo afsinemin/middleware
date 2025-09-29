@@ -123,3 +123,11 @@ from .webui_crypto import *
 from .webui_enclosure import *
 from .webui_main_dashboard import *
 from .zfs_resource_crud import *
+
+from .spdk_global import *
+from .spdk_host import *
+from .spdk_host_subsys import *
+from .spdk_namespace import *
+from .spdk_port import *
+from .spdk_port_subsys import *
+from .spdk_subsys import *

@@ -1,6 +1,7 @@
 import hashlib
 import os
 import pathlib
+import secrets
 import subprocess
 import uuid
 from collections import defaultdict
@@ -20,7 +21,6 @@ from middlewared.async_validators import check_path_resides_within_volume
 from middlewared.plugins.zfs_.utils import zvol_path_to_name
 from middlewared.plugins.zfs_.validation_utils import validate_dataset_name
 from middlewared.service import CallError, SharingService, ValidationErrors, private
-from middlewared.utils import secrets
 from middlewared.utils.size import format_size
 from .utils import sanitize_extent
 
@@ -259,7 +259,7 @@ class iSCSITargetExtentService(SharingService):
     @private
     async def validate(self, data):
         data['serial'] = await self.extent_serial(data['serial'])
-        data['naa'] = self.extent_naa(data.get('naa'))
+        data['naa'] = self.extent_naa(data.get('naa'), data.get('path'))
 
     @private
     async def extend(self, data):
@@ -481,7 +481,9 @@ class iSCSITargetExtentService(SharingService):
         return serial
 
     @private
-    def extent_naa(self, naa):
+    def extent_naa(self, naa, path=None):
+        if (path is not None):
+            return '0x6589cfc000000' + hashlib.md5(path.encode("utf-8")).hexdigest()[0:19]
         if naa is None:
             return '0x6589cfc000000' + hashlib.sha256(str(uuid.uuid4()).encode()).hexdigest()[0:19]
         else:

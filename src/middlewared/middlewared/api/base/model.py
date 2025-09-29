@@ -82,7 +82,6 @@ def _annotate_not_required(annotation: type[Any] | None):
 
     return new_annotation
 
-
 class _BaseModelMetaclass(ModelMetaclass):
     """Any `BaseModel` subclass that uses the `NotRequired` default value on any of its fields receives the appropriate
     model serializer."""

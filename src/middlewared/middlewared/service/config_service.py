@@ -15,23 +15,6 @@ from .service_mixin import ServiceChangeMixin
 get_or_insert_lock = asyncio.Lock()
 
 
-def config_args(entry: type[BaseModel]) -> type[BaseModel]:
-    return create_model(
-        entry.__name__.removesuffix("Entry") + 'ConfigArgs',
-        __base__=(BaseModel,),
-        __module__=entry.__module__,
-    )
-
-
-def config_result(entry: type[BaseModel]) -> type[BaseModel]:
-    return create_model(
-        entry.__name__.removesuffix('Entry') + 'ConfigResult',
-        __base__=(BaseModel,),
-        __module__=entry.__module__,
-        result=Annotated[entry, Field()],
-    )
-
-
 class ConfigServiceMetabase(ServiceBase):
 
     def __new__(cls, name, bases, attrs):
@@ -47,25 +30,30 @@ class ConfigServiceMetabase(ServiceBase):
         ):
             return klass
 
-        config = klass._config
-        entry = config.entry
+        namespace = klass._config.namespace.replace('.', '_')
+        config_model_name = f'{namespace.capitalize()}Config'
 
-        if not config.private and not config.role_prefix:
-            raise ValueError(f'{config.namespace}: public ConfigService must have role_prefix defined')
+        if not klass._config.private and not klass._config.role_prefix:
+            raise ValueError(f'{klass._config.namespace}: public ConfigService must have role_prefix defined')
 
-        if entry is None:
-            if not config.private:
-                raise ValueError(f'{config.namespace}: public ConfigService must have entry defined')
+        if klass._config.entry is None:
+            if not klass._config.private:
+                raise ValueError(f'{klass._config.namespace}: public ConfigService must have entry defined')
         else:
-            accepts_model = config_args(entry)
-            result_model = config_result(entry)
-            klass.config = api_method(accepts_model, result_model)(klass.config)
-
-            # Models must be registered with their factories for backwards compatibility.
-            klass._register_models = [
-                (accepts_model, config_args, entry.__name__),
-                (result_model, config_result, entry.__name__),
-            ]
+            result_model = create_model(
+                klass._config.entry.__name__.removesuffix('Entry') + 'ConfigResult',
+                __base__=(BaseModel,),
+                __module__=klass._config.entry.__module__,
+                result=Annotated[klass._config.entry, Field()]
+            )
+            klass.config = api_method(
+                create_model(
+                    config_model_name,
+                    __base__=(BaseModel,),
+                    __module__=klass._config.entry.__module__,
+                ),
+                result_model
+            )(klass.config)
 
         return klass
 
