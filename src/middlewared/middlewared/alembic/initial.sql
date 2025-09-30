@@ -61,6 +61,7 @@ INSERT INTO services_services VALUES(18,'smartd',1);
 INSERT INTO services_services VALUES(21,'lldp',0);
 INSERT INTO services_services VALUES(22,'webdav',0);
 INSERT INTO services_services VALUES(23,'s3',0);
+INSERT INTO services_services VALUES(30,'spdk',0);
 CREATE TABLE IF NOT EXISTS "services_iscsitargetauthcredential" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "iscsi_target_auth_tag" integer NOT NULL, "iscsi_target_auth_user" varchar(120) NOT NULL, "iscsi_target_auth_secret" varchar(120) NOT NULL, "iscsi_target_auth_peeruser" varchar(120) NOT NULL, "iscsi_target_auth_peersecret" varchar(120) NOT NULL);
 CREATE TABLE IF NOT EXISTS "services_iscsitargetauthorizedinitiator" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "iscsi_target_initiator_tag" integer NOT NULL UNIQUE UNIQUE, "iscsi_target_initiator_initiators" TEXT NOT NULL, "iscsi_target_initiator_auth_network" TEXT NOT NULL, "iscsi_target_initiator_comment" varchar(120) NOT NULL);
 CREATE TABLE IF NOT EXISTS "services_rsyncd" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "rsyncd_port" integer NOT NULL, "rsyncd_auxiliary" text NOT NULL);
